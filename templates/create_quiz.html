@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>Quiz</h1>
+        <form id="quizForm" method="post">{% csrf_token %}
+            <h4>Number of question</h4>
+        <input type="text" id="jsVariable" name="js_variable">
+            <label for="quizName">Quiz Name:</label>
+            <input type="text" name="quizName" id="quizName" required><br>
+
+            <label for="topic">Topic:</label>
+            <input type="text" name="topic" id="topic" required><br>
+
+            <label for="duration">Duration (minutes):</label>
+            <input type="number" name="duration" id="duration" required><br>
+
+            <label for="passScore">Required Score to Pass:</label>
+            <input type="number" name="passScore" id="passScore" required><br>
+
+            <label for="difficulty">Difficulty:</label>
+            <select id="difficulty" name="difficulty" required>
+                <option value="e">Easy</option>
+                <option value="m">Medium</option>
+                <option value="h">Hard</option>
+            </select><br>
+
+            <div class="question">
+                <h3>Question 1</h3>
+                <label for="question1">Question:</label>
+                <input type="text" name="question1" id="question1" required><br>
+
+                <h4>Answers:</h4>
+                <div id="answers1">
+                    <div>
+                        <label for="answer1_1">Answer 1:</label>
+                        <input type="text" name="answer1_1" id="answer1_1" required>
+                        <label for="correct1_1">Is Correct?</label>
+                        <input type="checkbox" name="correct1_1" id="correct1_1">
+                    </div>
+                </div>
+                <button type="button" onclick="addAnswer('answers1')">Add Answer</button>
+            </div>
+
+            <div class="button-container">
+                <button type="button" onclick="addQuestion()">Add Question</button>
+                <button type="submit">Create Quiz</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let questionCount = 1;
+
+        function addQuestion() {
+            //
+
+
+
+            //
+            questionCount++;
+            const newQuestion = document.createElement('div');
+            newQuestion.className = 'question';
+            newQuestion.innerHTML = `
+                <h3>Question ${questionCount}</h3>
+                <label for="question${questionCount}">Question:</label>
+                <input type="text" name="question${questionCount}" id="question${questionCount}" required><br>
+
+                <h4>Answers:</h4>
+                <div id="answers${questionCount}">
+                    <div>
+                        <label for="answer${questionCount}_1">Answer 1:</label>
+                        <input type="text" name="answer${questionCount}_1" id="answer${questionCount}_1" required>
+                        <label for="correct${questionCount}_1">Is Correct?</label>
+                        <input type="checkbox" name="correct${questionCount}_1" id="correct${questionCount}_1">
+                    </div>
+                </div>
+                <button type="button" onclick="addAnswer('answers${questionCount}')">Add Answer</button>
+            `;
+            document.getElementById('quizForm').insertBefore(newQuestion, document.querySelector('.button-container'));
+
+            document.getElementById('jsVariable').value = questionCount;
+        }
+
+        function addAnswer(containerId) {
+            const container = document.getElementById(containerId);
+            const answerCount = container.querySelectorAll('input[type="text"]').length + 1;
+            const newAnswer = document.createElement('div');
+            newAnswer.innerHTML = `
+                <label for="answer${containerId}_${answerCount}">Answer ${answerCount}:</label>
+                <input type="text" name="answer${containerId}_${answerCount}" id="answer${containerId}_${answerCount}" required>
+                <label for="correct${containerId}_${answerCount}">Is Correct?</label>
+                <input type="checkbox" name="correct${containerId}_${answerCount}" id="correct${containerId}_${answerCount}">
+            `;
+            container.appendChild(newAnswer);
+        }
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+    </script>
+</body>
+</html>

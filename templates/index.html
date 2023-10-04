@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        body {
+      background: linear-gradient(135deg, #3498db, #9b59b6, #e74c3c); /* Gradient background */
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+        }
+
+        .quiz-choices label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .quiz-button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .quiz-button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <br>
+    <br>
+    <br>
+
+        <h1>Quiz Title</h1>
+        <form id="quiz-form" method="post"> {% csrf_token %}
+            {% csrf_token %}
+        <div id="timer">Remaining Time: <span id="countdown"></span></div>
+            {% for question in questions %}
+            <div class="quiz-question">
+                <p>{{ question.text }}</p>
+                <div class="quiz-choices">
+                    {% for choice in question.answers.all %}
+                    <label>
+                        <input type="radio" name="question_{{ question.id }}" value="{{ choice.id }}">
+                        {{ choice.text }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+                <hr>
+            {% endfor %}
+            <button type="submit" class="quiz-button">Submit</button>
+        </form>
+        {% if score is not None %}
+        <div class="result">
+            Your Score: {{ score }} out of {{ total_questions }}
+        </div>
+        {% endif %}
+    </div>
+    <script>
+            // JavaScript to update the remaining time
+    // JavaScript to update the remaining time
+    function updateTimer(remainingTime) {
+        var countdownElement = document.getElementById('countdown');
+        var minutes = Math.floor(remainingTime);
+        var seconds = (remainingTime - minutes) * 60;
+
+        // Format the time as MM:SS
+        countdownElement.textContent = (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + Math.round(seconds);
+    }
+
+    // Call the timer update function on page load
+    window.onload = function () {
+        var remainingTime = {{ quiz.time }};
+        updateTimer(remainingTime);
+
+        // Update the timer every second
+        setInterval(function () {
+            if (remainingTime > 0) {
+                remainingTime -= 1 / 60; // Subtract 1 second in minutes
+                updateTimer(remainingTime);
+            }
+        }, 1000);
+    };
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+        // Set the timer duration in milliseconds (adjust as needed)
+        var timerDuration = {{ quiz.time }} * 60 * 1000;  // 15 minutes
+
+        // Function to submit the quiz form
+        function submitQuiz() {
+            document.getElementById('quiz-form').submit();
+        }
+
+        // Start the timer
+        setTimeout(submitQuiz, timerDuration);
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #3498db, #9b59b6, #e74c3c);
+            display: flex;
+            /* background-color: #f0f0f0; */
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            padding-right: 50px;
+            padding-left: 50px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Results</h1>
+        <table>
+            <tr>
+                <th>Quiz Name</th>
+                <th>User</th>
+                <th>Score</th>
+                <th>Date/Time</th>
+            </tr>
+            {% for result in results %}
+            <tr>
+                <td>{{ result.quiz.name }}</td>
+                <td>{{ result.user.username }}</td>
+                <td>{{ result.score }}</td>
+                <td>{{ result.time }}</td>
+            </tr>
+{% endfor %}
+            <!-- Add more rows for additional results -->
+        </table>
+    </div>
+</body>
+</html>

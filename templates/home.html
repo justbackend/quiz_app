@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Cards</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #3498db, #9b59b6, #e74c3c);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: beige;
+        }
+
+        .quiz-card {
+            flex-basis: calc(33.33% - 20px); /* Adjust the width based on the number of cards per row */
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: #333;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive styles for smaller screens */
+        @media (max-width: 768px) {
+            .quiz-card {
+                flex-basis: calc(50% - 20px); /* Adjust the width for two cards per row */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .quiz-card {
+                flex-basis: calc(100% - 20px); /* Full width for one card per row on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+{% for quiz in quizes %}
+    <div class="quiz-card">
+        <h2>{{ quiz.name }}</h2>
+        <p>Duration: {{ quiz.time }} minutes</p>
+        <p>Difficulty: {{ quiz.difficulty }}</p>
+        <p>Number of Questions: {{ quiz.number_of_questions }}</p>
+        <p>Topic: {{ quiz.topic }}</p>
+        <div class="button-container">
+            <button><a style="color: beige; text-decoration: none" href="quiz/{{ quiz.id }}/">Start Quiz </a></button>
+        </div>
+    </div><!-- Add more quiz cards here with the same structure -->
+{% endfor %}
+</body>
+</html>
